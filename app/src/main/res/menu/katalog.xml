@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.i14048.ui.KatalogActivity">
+
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:title="Setting"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_1"
+        android:orderInCategory="100"
+        android:title="Sort By"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_3"
+        android:orderInCategory="100"
+        android:title="Logout"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_2"
+        android:orderInCategory="100"
+        android:title="Exit"
+        app:showAsAction="never" />
+
+</menu>

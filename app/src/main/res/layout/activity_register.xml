@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_register"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.i14048.pkl.RegisterActivity">
+
+    <TextView
+        android:text="REGISTER"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:id="@+id/RegisterTitle"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:textSize="18sp"
+        android:textAlignment="center" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:layout_marginTop="24dp"
+        android:id="@+id/emailText"
+        android:layout_below="@+id/RegisterTitle"
+        android:layout_alignStart="@+id/RegisterTitle"
+        android:text="E-Mail" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Nama Lengkap"
+        android:ems="10"
+        android:layout_below="@+id/emailText"
+        android:layout_alignStart="@+id/emailText"
+        android:layout_marginTop="16dp"
+        android:id="@+id/nameText" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPostalAddress"
+        android:ems="10"
+        android:layout_below="@+id/nameText"
+        android:layout_alignStart="@+id/nameText"
+        android:layout_marginTop="16dp"
+        android:id="@+id/alamatText"
+        android:text="Alamat Lapak" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="phone"
+        android:ems="10"
+        android:layout_below="@+id/alamatText"
+        android:layout_alignStart="@+id/alamatText"
+        android:layout_marginTop="16dp"
+        android:id="@+id/phoneText"
+        android:text="Nomor HP" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:ems="10"
+        android:layout_below="@+id/phoneText"
+        android:layout_alignStart="@+id/phoneText"
+        android:layout_marginTop="16dp"
+        android:id="@+id/birthText"
+        android:text="Tanggal Lahir" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Produk Unggul"
+        android:ems="10"
+        android:layout_below="@+id/birthText"
+        android:layout_alignStart="@+id/birthText"
+        android:layout_marginTop="16dp"
+        android:id="@+id/unggulanText" />
+
+    <Button
+        android:text="Simpan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/saveBtn" />
+
+    <Button
+        android:text="Batal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/saveBtn"
+        android:layout_alignParentStart="true"
+        android:id="@+id/cancelBtn" />
+
+</RelativeLayout>
