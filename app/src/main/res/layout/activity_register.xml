@@ -30,13 +30,14 @@
         android:id="@+id/emailText"
         android:layout_below="@+id/RegisterTitle"
         android:layout_alignStart="@+id/RegisterTitle"
-        android:text="E-Mail" />
+        android:hint="E-Mail"
+        />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="Nama Lengkap"
+        android:hint="Nama Lengkap"
         android:ems="10"
         android:layout_below="@+id/emailText"
         android:layout_alignStart="@+id/emailText"
@@ -51,22 +52,22 @@
         android:layout_below="@+id/nameText"
         android:layout_alignStart="@+id/nameText"
         android:layout_marginTop="16dp"
-        android:id="@+id/alamatText"
-        android:text="Alamat Lapak" />
+        android:id="@+id/addressText"
+        android:hint="Alamat Lapak" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="phone"
         android:ems="10"
-        android:layout_below="@+id/alamatText"
-        android:layout_alignStart="@+id/alamatText"
+        android:layout_below="@+id/addressText"
+        android:layout_alignStart="@+id/addressText"
         android:layout_marginTop="16dp"
         android:id="@+id/phoneText"
-        android:text="Nomor HP" />
+        android:hint="Nomor HP" />
 
     <EditText
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="date"
         android:ems="10"
@@ -74,18 +75,19 @@
         android:layout_alignStart="@+id/phoneText"
         android:layout_marginTop="16dp"
         android:id="@+id/birthText"
-        android:text="Tanggal Lahir" />
+        android:hint="Tanggal Lahir (dd/mm/yy)"
+        android:layout_toStartOf="@+id/saveBtn" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="Produk Unggul"
+        android:hint="Produk Unggul"
         android:ems="10"
         android:layout_below="@+id/birthText"
         android:layout_alignStart="@+id/birthText"
         android:layout_marginTop="16dp"
-        android:id="@+id/unggulanText" />
+        android:id="@+id/productText" />
 
     <Button
         android:text="Simpan"
@@ -102,5 +104,14 @@
         android:layout_alignTop="@+id/saveBtn"
         android:layout_alignParentStart="true"
         android:id="@+id/cancelBtn" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button"
+        android:text="Date"
+        android:drawableStart="@drawable/ic_date_range_black_18dp"
+        android:layout_alignTop="@+id/birthText"
+        android:layout_toEndOf="@+id/birthText" />
 
 </RelativeLayout>
