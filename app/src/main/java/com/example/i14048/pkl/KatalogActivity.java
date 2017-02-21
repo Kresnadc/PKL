@@ -1,6 +1,7 @@
 package com.example.i14048.pkl;
 
 import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -17,11 +18,18 @@ public class KatalogActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(SessionHandler.checkSession(this)){
+            ContentValues accountInfo = SessionHandler.getActiveSession(this);
+        }else{
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
         setContentView(R.layout.activity_katalog);
 
-        TextView tv = (TextView) findViewById(R.id.textViewWelcome);
+        TextView welcomeText = (TextView) findViewById(R.id.textViewWelcome);
         Bundle b = getIntent().getExtras();
-        tv.setText("Selamat datang: " + b.getString("UserName"));
+        welcomeText.setText("Selamat datang: " + b.getString("UserName"));
 
         Button btnTampilKatalog = (Button) findViewById(R.id.buttonTampilKatalog);
         btnTampilKatalog.setOnClickListener(new View.OnClickListener() {
