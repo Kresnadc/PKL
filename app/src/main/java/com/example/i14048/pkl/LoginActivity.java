@@ -37,7 +37,9 @@ public class LoginActivity extends AppCompatActivity {
                     i.putExtras(b);
                     startActivity(i);
                 }else{
-                    Toast.makeText(getApplicationContext(), "Wrong Username or Password", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Mohon maaf user name atau password yang anda masukkan salah, " +
+                            "silakan ulangi login, atau Registrasi jika belum terdaftar",
+                            Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -59,6 +61,7 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Data Not Found", Toast.LENGTH_SHORT).show();
             return isLoginSuccess;
         }else if(AccountInfo.getAsString("email").equalsIgnoreCase(getUserNameText())){
+            SessionHandler.loginSession(this, AccountInfo);
             return true;
         }else{
             return false;

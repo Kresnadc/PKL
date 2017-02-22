@@ -9,7 +9,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,28 +30,10 @@ public class KatalogActivity extends AppCompatActivity {
         setContentView(R.layout.activity_katalog);
 
         TextView welcomeText = (TextView) findViewById(R.id.textViewWelcome);
+        ListView katalogList = (ListView) findViewById(R.id.katalogListView);
+
         Bundle b = getIntent().getExtras();
         welcomeText.setText("Selamat datang: " + b.getString("UserName"));
-
-        Button btnTampilKatalog = (Button) findViewById(R.id.buttonTampilKatalog);
-        btnTampilKatalog.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-                new AlertDialog.Builder(KatalogActivity.this)
-                        .setTitle("KATALOG")
-                        .setMessage("Tampilkan Katalog")
-                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dlg, int sumthin) {
-                                Toast
-                                        .makeText(KatalogActivity.this, "Katalog ditampilkan", Toast.LENGTH_SHORT)
-                                        .show();
-                            }
-                        })
-                        .show();
-            }
-        });
     }
 
     @Override
@@ -65,23 +49,26 @@ public class KatalogActivity extends AppCompatActivity {
             Toast.makeText(KatalogActivity.this, "Menu Setting", Toast.LENGTH_SHORT).show();
             return true;
         }
-        else if (id==R.id.action_1){
-            Toast.makeText(KatalogActivity.this, "Sort By", Toast.LENGTH_SHORT).show();
+        else if (id==R.id.action_sort){
+            Toast.makeText(KatalogActivity.this, "Sort By (Not Implemented Yet)", Toast.LENGTH_SHORT).show();
+            //Do Sort
+            return true;
+        }else if (id==R.id.action_logout){
+            Toast.makeText(KatalogActivity.this, "Anda berhasil Logout", Toast.LENGTH_SHORT).show();
+            //Do Logout
+            Intent i = new Intent(KatalogActivity.this, LoginActivity.class);
+            startActivity(i);
             return true;
         }
-        else if (id==R.id.action_2){
+        else if (id==R.id.action_exit){
             Toast.makeText(KatalogActivity.this, "Exit", Toast.LENGTH_SHORT).show();
             Intent i = new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(i);
             finish();
             System.exit(0);
             return true;
-        }else if (id==R.id.action_3){
-            Toast.makeText(KatalogActivity.this, "Anda berhasil Logout", Toast.LENGTH_SHORT).show();
-            Intent i = new Intent(KatalogActivity.this, LoginActivity.class);
-            startActivity(i);
-            return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
 }
