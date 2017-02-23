@@ -33,7 +33,7 @@ public class KatalogDBHandler extends SQLiteOpenHelper {
 
     public KatalogDBHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-//        this.testInsert(); // DELETE JIKA TIDAK PERLU
+        this.testInsert(); // DELETE JIKA TIDAK PERLU
     }
 
     @Override

@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.example.i14048.pkl.db.KatalogDBHandler;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class KatalogActivity extends AppCompatActivity {
     private TextView welcomeText;
@@ -42,6 +43,15 @@ public class KatalogActivity extends AppCompatActivity {
          */
         final KatalogList katalogListAdapter = createListAdapter();
         this.katalogList.setAdapter(katalogListAdapter);
+        katalogList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String yourData = (String) katalogList.getItemAtPosition(position);
+                Intent intent = new Intent(KatalogActivity.this, KatalogDetailActivity.class);
+                Toast.makeText(getApplicationContext(), yourData, Toast.LENGTH_SHORT).show();
+                startActivity(intent);
+            }
+        });
         /*
             ListView End here!
          */
@@ -99,7 +109,8 @@ public class KatalogActivity extends AppCompatActivity {
             basePrice[i] = curCV.getAsInteger("base_price");
             sellPrice[i] = curCV.getAsInteger("sell_price");
         }
-        return new KatalogList(getLayoutInflater(), this, productId, productName, basePrice, sellPrice);
+        String[] productIdStr= Arrays.toString(productId).split("[\\[\\]]")[1].split(", ");
+        return new KatalogList(getLayoutInflater(), this, productId, productName, basePrice, sellPrice, productIdStr);
     }
 
 
