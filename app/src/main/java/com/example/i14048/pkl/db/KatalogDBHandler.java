@@ -90,7 +90,7 @@ public class KatalogDBHandler extends SQLiteOpenHelper {
                 null                                 // The sort order
         );
 
-        if(cursor.moveToNext()){
+        while(cursor.moveToNext()){
             katalogInfo.put(COLUMN_NAME_PRODUCTID, cursor.getString(cursor.getColumnIndex(COLUMN_NAME_PRODUCTID)));
             katalogInfo.put(COLUMN_NAME_ACCOUNTNAME, cursor.getString(cursor.getColumnIndex(COLUMN_NAME_ACCOUNTNAME)));
             katalogInfo.put(COLUMN_NAME_PRODUCTNAME, cursor.getString(cursor.getColumnIndex(COLUMN_NAME_PRODUCTNAME)));

@@ -14,10 +14,6 @@ import android.widget.TextView;
  */
 
 public class KatalogList extends ArrayAdapter{
-    public static final String COLUMN_NAME_PRODUCTID = "product_id";
-    public static final String COLUMN_NAME_PRODUCTNAME = "product_name";
-    public static final String COLUMN_NAME_BASEPRICE = "base_price";
-    public static final String COLUMN_NAME_SELLPRICE = "sell_price";
     private int productId[];
     private String productName[];
     private int basePrice[];
