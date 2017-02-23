@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+
 /**
  * Created by kresn on 2/22/2017.
  */
@@ -31,7 +33,7 @@ public class KatalogDBHandler extends SQLiteOpenHelper {
 
     public KatalogDBHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        this.testInsert(); // DELETE JIKA TIDAK PERLU
+//        this.testInsert(); // DELETE JIKA TIDAK PERLU
     }
 
     @Override
@@ -63,9 +65,9 @@ public class KatalogDBHandler extends SQLiteOpenHelper {
         }
     }
 
-    public ContentValues getKatalog(String accountName){
+    public ArrayList<ContentValues> getKatalog(String accountName){
         SQLiteDatabase db = this.getReadableDatabase();
-        ContentValues katalogInfo = new ContentValues();
+        ArrayList<ContentValues> katalogsInfo = new ArrayList<ContentValues>();
         String[] projection = {
                 COLUMN_NAME_PRODUCTID,
                 COLUMN_NAME_ACCOUNTNAME,
@@ -91,14 +93,16 @@ public class KatalogDBHandler extends SQLiteOpenHelper {
         );
 
         while(cursor.moveToNext()){
+            ContentValues katalogInfo = new ContentValues();
             katalogInfo.put(COLUMN_NAME_PRODUCTID, cursor.getString(cursor.getColumnIndex(COLUMN_NAME_PRODUCTID)));
             katalogInfo.put(COLUMN_NAME_ACCOUNTNAME, cursor.getString(cursor.getColumnIndex(COLUMN_NAME_ACCOUNTNAME)));
             katalogInfo.put(COLUMN_NAME_PRODUCTNAME, cursor.getString(cursor.getColumnIndex(COLUMN_NAME_PRODUCTNAME)));
             katalogInfo.put(COLUMN_NAME_BASEPRICE, cursor.getString(cursor.getColumnIndex(COLUMN_NAME_BASEPRICE)));
             katalogInfo.put(COLUMN_NAME_SELLPRICE, cursor.getString(cursor.getColumnIndex(COLUMN_NAME_SELLPRICE)));
+            katalogsInfo.add(katalogInfo);
         }
         cursor.close();
-        return katalogInfo;
+        return katalogsInfo;
     }
 
     public void updateKatalog(int productId, String accountName, String productName, int basePrice, int sellPrice) {
@@ -118,7 +122,11 @@ public class KatalogDBHandler extends SQLiteOpenHelper {
         db.update(TABLE_NAME, values, selection, selectionArgs);
     }
 
+    /**
+     * Tester Insert
+     */
     public void testInsert(){
-        this.insertKatalog("kresna","Katalog Nama 1", 3000, 5000);
+//        this.insertKatalog("kresna","Kopikap", 3000, 5000);
+//        this.insertKatalog("kresna","Coca-Cola", 3000, 5000);
     }
 }

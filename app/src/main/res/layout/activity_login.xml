@@ -35,7 +35,7 @@
         android:layout_marginEnd="16dp"
         android:hint="Masukkan email di sini!"
         android:inputType="textEmailAddress"
-        android:text="kresna@unpar.ac.id"
+        android:text="kresna"
         android:layout_above="@+id/textViewPassword"
         android:layout_alignStart="@+id/textViewPassword"
         android:layout_marginBottom="16dp">

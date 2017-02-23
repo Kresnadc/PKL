@@ -1,18 +1,26 @@
 package com.example.i14048.pkl;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.i14048.pkl.db.KatalogDBHandler;
 
+import java.util.ArrayList;
+
 public class KatalogActivity extends AppCompatActivity {
+    private TextView welcomeText;
+    private ListView katalogList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,10 +34,17 @@ public class KatalogActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_katalog);
 
-        TextView welcomeText = (TextView) findViewById(R.id.textViewWelcome);
-        ListView katalogList = (ListView) findViewById(R.id.katalogListView);
+        welcomeText = (TextView) findViewById(R.id.textViewWelcome);
+        katalogList = (ListView) findViewById(R.id.katalogListView);
 
-        KatalogList katalogListAdapter = createListAdapter();
+        /*
+            ListView Handler
+         */
+        final KatalogList katalogListAdapter = createListAdapter();
+        this.katalogList.setAdapter(katalogListAdapter);
+        /*
+            ListView End here!
+         */
 
         Bundle b = getIntent().getExtras();
         welcomeText.setText("Selamat datang: " + b.getString("UserName"));
@@ -71,10 +86,21 @@ public class KatalogActivity extends AppCompatActivity {
 
     private KatalogList createListAdapter() {
         ContentValues accountInfo = SessionHandler.getActiveSession(this);
-        ContentValues katalogInfo = new KatalogDBHandler(this).getKatalog(accountInfo.getAsString("email"));
-        return null;
-        //return new KatalogList(getLayoutInflater(), this,
-        //        katalogInfo.getAsInteger("product_id"), katalogInfo.getAsInteger("account_name"), katalogInfo.getAsInteger("product_name"),
-        //        katalogInfo.getAsInteger("base_price"), katalogInfo.getAsInteger("sell_price") );
+        ArrayList<ContentValues> katalogInfo = new KatalogDBHandler(this).getKatalog(accountInfo.getAsString("email"));
+        int sizeKatalogList = katalogInfo.size();
+        int[] productId = new int[sizeKatalogList];
+        String[] productName = new String[sizeKatalogList];
+        int[] basePrice = new int[sizeKatalogList];
+        int[] sellPrice = new int[sizeKatalogList];
+        for (int i = 0; i < sizeKatalogList; i++) {
+            ContentValues curCV = katalogInfo.get(i);
+            productId[i] = curCV.getAsInteger("product_id");
+            productName[i] = curCV.getAsString("product_name");
+            basePrice[i] = curCV.getAsInteger("base_price");
+            sellPrice[i] = curCV.getAsInteger("sell_price");
+        }
+        return new KatalogList(getLayoutInflater(), this, productId, productName, basePrice, sellPrice);
     }
+
+
 }

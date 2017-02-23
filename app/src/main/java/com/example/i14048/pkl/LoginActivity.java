@@ -78,4 +78,8 @@ public class LoginActivity extends AppCompatActivity {
         return this.passwordEditText.getText().toString().trim();
     }
 
+    @Override
+    public void onBackPressed() {
+        // Do nothing
+    }
 }

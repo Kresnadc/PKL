@@ -13,7 +13,7 @@ import android.widget.TextView;
  * Created by kresn on 2/22/2017.
  */
 
-public class KatalogList extends ArrayAdapter{
+public class KatalogList extends ArrayAdapter {
     private int productId[];
     private String productName[];
     private int basePrice[];
@@ -35,7 +35,7 @@ public class KatalogList extends ArrayAdapter{
 
         TextView nameKatalogRow = (TextView) view.findViewById(R.id.nameKatalogList);
 
-        nameKatalogRow.setText(position+productName[position]+" "+sellPrice[position]);
+        nameKatalogRow.setText(position + ". " + productName[position+1] + " sell Price : " + sellPrice[position]);
 
         return view;
     }
