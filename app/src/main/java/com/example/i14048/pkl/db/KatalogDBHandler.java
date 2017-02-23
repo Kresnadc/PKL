@@ -79,9 +79,6 @@ public class KatalogDBHandler extends SQLiteOpenHelper {
         String selection = this.COLUMN_NAME_ACCOUNTNAME + " = ?";
         String[] selectionArgs = { accountName };
 
-        // How you want the results sorted in the resulting Cursor
-        //String sortOrder = FeedEntry.COLUMN_NAME_SUBTITLE + " DESC";
-
         Cursor cursor = db.query(
                 this.TABLE_NAME,                     // The table to query
                 projection,                          // The columns to return
@@ -115,9 +112,9 @@ public class KatalogDBHandler extends SQLiteOpenHelper {
         values.put(COLUMN_NAME_BASEPRICE, basePrice);
         values.put(COLUMN_NAME_SELLPRICE, sellPrice);
 
-        String selection = COLUMN_NAME_PRODUCTNAME + " = ?";
+        String selection = COLUMN_NAME_PRODUCTID + " = ?";
         // UPDATE FAILURE INTEGER
-        String[] selectionArgs = {productName};
+        String[] selectionArgs = {productId+""};
 
         db.update(TABLE_NAME, values, selection, selectionArgs);
     }

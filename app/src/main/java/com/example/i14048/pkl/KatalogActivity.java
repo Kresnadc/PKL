@@ -114,4 +114,7 @@ public class KatalogActivity extends AppCompatActivity {
     }
 
 
+    public void addProductBtnOnclick(View view) {
+
+    }
 }
