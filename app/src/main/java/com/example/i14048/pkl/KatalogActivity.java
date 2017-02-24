@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +23,9 @@ public class KatalogActivity extends AppCompatActivity {
     private TextView welcomeText;
     private ListView katalogList;
 
+    private Button addProductBtn;
+    private Button transactionBtn;
+    private Button exitBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +58,40 @@ public class KatalogActivity extends AppCompatActivity {
         });
         /*
             ListView End here!
+        */
+
+        /*
+            Button Listner
          */
+        this.addProductBtn = (Button) findViewById(R.id.addProductButtonKatalog);
+        this.transactionBtn = (Button) findViewById(R.id.transactionButtonKatalog);
+        this.exitBtn = (Button) findViewById(R.id.exitButtonKatalog);
+        addProductBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(KatalogActivity.this, KatalogDetailActivity.class);
+                startActivity(intent);
+            }
+        });
+        transactionBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(KatalogActivity.this, TransactionActivity.class);
+                startActivity(intent);
+            }
+        });
+        exitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(KatalogActivity.this, "Exit", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+                System.exit(0);
+            }
+        });
+
+
 
         Bundle b = getIntent().getExtras();
         welcomeText.setText("Selamat datang: " + b.getString("UserName"));
@@ -80,13 +117,13 @@ public class KatalogActivity extends AppCompatActivity {
         } else if (id == R.id.action_logout) {
             Toast.makeText(KatalogActivity.this, "Anda berhasil Logout", Toast.LENGTH_SHORT).show();
             //Do Logout
-            Intent i = new Intent(KatalogActivity.this, LoginActivity.class);
-            startActivity(i);
+            Intent intent = new Intent(KatalogActivity.this, LoginActivity.class);
+            startActivity(intent);
             return true;
         } else if (id == R.id.action_exit) {
             Toast.makeText(KatalogActivity.this, "Exit", Toast.LENGTH_SHORT).show();
-            Intent i = new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(i);
+            Intent intent = new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
             finish();
             System.exit(0);
             return true;
@@ -109,8 +146,18 @@ public class KatalogActivity extends AppCompatActivity {
             basePrice[i] = curCV.getAsInteger("base_price");
             sellPrice[i] = curCV.getAsInteger("sell_price");
         }
-        String[] productIdStr= Arrays.toString(productId).split("[\\[\\]]")[1].split(", ");
+        String[] productIdStr;
+        if(productId.length!=0) {
+            productIdStr = Arrays.toString(productId).split("[\\[\\]]")[1].split(", ");
+        }else{
+            productIdStr = new String[sizeKatalogList];
+        }
         return new KatalogList(getLayoutInflater(), this, productId, productName, basePrice, sellPrice, productIdStr);
+    }
+
+    @Override
+    public void onBackPressed() {
+        // Do nothing
     }
 
 
