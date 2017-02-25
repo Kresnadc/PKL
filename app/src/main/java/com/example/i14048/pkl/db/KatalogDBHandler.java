@@ -137,7 +137,7 @@ public class KatalogDBHandler extends SQLiteOpenHelper {
         return katalogInfo;
     }
 
-    public void updateKatalog(int productId, String accountName, String productName, int basePrice, int sellPrice) {
+    public int updateKatalog(int productId, String accountName, String productName, int basePrice, int sellPrice) {
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues values = new ContentValues();
 
@@ -148,10 +148,10 @@ public class KatalogDBHandler extends SQLiteOpenHelper {
         values.put(COLUMN_NAME_SELLPRICE, sellPrice);
 
         String selection = COLUMN_NAME_PRODUCTID + " = ?";
-        // UPDATE FAILURE INTEGER
         String[] selectionArgs = {productId+""};
 
-        db.update(TABLE_NAME, values, selection, selectionArgs);
+        int count = db.update(TABLE_NAME, values, selection, selectionArgs);
+        return count;
     }
 
     /**

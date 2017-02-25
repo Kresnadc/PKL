@@ -96,10 +96,8 @@ public class KatalogActivity extends AppCompatActivity {
             }
         });
 
-
-
-        Bundle b = getIntent().getExtras();
-        welcomeText.setText("Selamat datang: " + b.getString("UserName"));
+        ContentValues accountInfo = SessionHandler.getActiveSession(this);
+        welcomeText.setText("Selamat datang: " + accountInfo.getAsString("email"));
 
     }
 

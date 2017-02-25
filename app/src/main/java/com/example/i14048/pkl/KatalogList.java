@@ -34,11 +34,8 @@ public class KatalogList extends ArrayAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = this.inflater.inflate(R.layout.katalog_list, null, true);
-
         TextView nameKatalogRow = (TextView) view.findViewById(R.id.nameKatalogList);
-
         nameKatalogRow.setText((position+1) + ". " + productName[position] + " sell Price : " + sellPrice[position]);
-
         return view;
     }
 

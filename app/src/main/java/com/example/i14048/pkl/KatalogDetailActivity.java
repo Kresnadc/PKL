@@ -9,11 +9,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.i14048.pkl.db.KatalogDBHandler;
 
 public class KatalogDetailActivity extends AppCompatActivity {
     private String idSelectedKatalog;
+    private String accountSelectedKatalog;
     private final String keySelectedPreference = "idSelectedKatalog";
     private KatalogDBHandler dbHandler = new KatalogDBHandler(this);
 
@@ -34,17 +36,17 @@ public class KatalogDetailActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
-        SharedPreferences selectedKatalog = getSharedPreferences("SelectedKatalogSession" , Context.MODE_PRIVATE);
+        SharedPreferences selectedKatalog = getSharedPreferences("SelectedKatalogSession", Context.MODE_PRIVATE);
         setContentView(R.layout.activity_katalog_detail);
-        if(selectedKatalog!=null){
+        if (selectedKatalog != null) {
             this.idSelectedKatalog = selectedKatalog.getString(keySelectedPreference, "");
-        }else{
+        } else {
             this.idSelectedKatalog = "";
         }
         prepareLayourKatalogDetail();
     }
 
-    private void prepareLayourKatalogDetail(){
+    private void prepareLayourKatalogDetail() {
         this.namaProdukText = (EditText) findViewById(R.id.namaProdukEditTextKatalogDetail);
         this.hargaPokokText = (EditText) findViewById(R.id.hargaPokokEditTextKatalogDetail);
         this.hargaJualText = (EditText) findViewById(R.id.hargaJualEditTextKatalogDetail);
@@ -52,16 +54,26 @@ public class KatalogDetailActivity extends AppCompatActivity {
         this.saveBtn = (Button) findViewById(R.id.saveButtonKatalogDetail);
         this.backBtn = (Button) findViewById(R.id.backButtonKatalogDetail);
         ContentValues selectedKatalog = this.dbHandler.getKatalogById(this.idSelectedKatalog);
-        if(!idSelectedKatalog.equalsIgnoreCase("")){
+        if (!idSelectedKatalog.equalsIgnoreCase("")) {
             this.namaProdukText.setText(selectedKatalog.getAsString(this.dbHandler.COLUMN_NAME_PRODUCTNAME));
             this.hargaPokokText.setText(selectedKatalog.getAsString(this.dbHandler.COLUMN_NAME_BASEPRICE));
             this.hargaJualText.setText(selectedKatalog.getAsString(this.dbHandler.COLUMN_NAME_SELLPRICE));
-        }else{
-            this.addBtn.setEnabled(false);
+            this.accountSelectedKatalog = selectedKatalog.getAsString(this.dbHandler.COLUMN_NAME_ACCOUNTNAME);
         }
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!idSelectedKatalog.equals("")) {
+                    if (saveActionBtn() > 0) {
+                        Toast.makeText(getApplicationContext(), "Product Updated...", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Save Failed, Please contact administrator.", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                SharedPreferences preferences = getSharedPreferences("SelectedKatalogSession", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.clear();
+                editor.commit();
                 Intent intent = new Intent(KatalogDetailActivity.this, KatalogDetailActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
@@ -70,8 +82,24 @@ public class KatalogDetailActivity extends AppCompatActivity {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(KatalogDetailActivity.this, TransactionActivity.class);
-                startActivity(i);
+                if (idSelectedKatalog.equals("")) {//Add Produk
+                    if (addActionBtn()) {
+                        Toast.makeText(getApplicationContext(), "Product added...", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Adding Failed, Please contact administrator.", Toast.LENGTH_SHORT).show();
+                    }
+                } else { //Update Produk
+                    if (saveActionBtn() > 0) {
+                        Toast.makeText(getApplicationContext(), "Product Updated...", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(KatalogDetailActivity.this, KatalogActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Save Failed, Please contact administrator.", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+
             }
         });
         backBtn.setOnClickListener(new View.OnClickListener() {
@@ -82,5 +110,23 @@ public class KatalogDetailActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private int saveActionBtn() {
+        String namaStr = namaProdukText.getText().toString();
+        String pokokStr = hargaPokokText.getText().toString();
+        String jualStr = hargaJualText.getText().toString();
+        return this.dbHandler.updateKatalog(Integer.parseInt(this.idSelectedKatalog),
+                this.accountSelectedKatalog, namaStr,
+                Integer.parseInt(pokokStr), Integer.parseInt(jualStr));
+    }
+
+    private boolean addActionBtn() {
+        String namaStr = namaProdukText.getText().toString();
+        String pokokStr = hargaPokokText.getText().toString();
+        String jualStr = hargaJualText.getText().toString();
+        ContentValues accountInfo = SessionHandler.getActiveSession(this);
+        return this.dbHandler.insertKatalog(accountInfo.getAsString("email"), namaStr,
+                Integer.parseInt(pokokStr), Integer.parseInt(jualStr));
     }
 }
