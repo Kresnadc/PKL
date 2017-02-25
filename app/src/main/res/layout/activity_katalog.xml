@@ -33,8 +33,7 @@
         android:layout_height="wrap_content"
         android:text="Add Product"
         android:layout_above="@+id/transactionButtonKatalog"
-        android:layout_centerHorizontal="true"
-        android:onClick="addProductBtnOnclick"/>
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:id="@+id/transactionButtonKatalog"
