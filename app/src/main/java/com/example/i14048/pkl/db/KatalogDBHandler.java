@@ -102,6 +102,41 @@ public class KatalogDBHandler extends SQLiteOpenHelper {
         return katalogsInfo;
     }
 
+    public ContentValues getKatalogById(String idKatalog){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues katalogInfo = new ContentValues();
+        String[] projection = {
+                COLUMN_NAME_PRODUCTID,
+                COLUMN_NAME_ACCOUNTNAME,
+                COLUMN_NAME_PRODUCTNAME,
+                COLUMN_NAME_BASEPRICE,
+                COLUMN_NAME_SELLPRICE,
+        };
+
+        String selection = this.COLUMN_NAME_PRODUCTID + " = ?";
+        String[] selectionArgs = { idKatalog };
+
+        Cursor cursor = db.query(
+                this.TABLE_NAME,                     // The table to query
+                projection,                          // The columns to return
+                selection,                           // The columns for the WHERE clause
+                selectionArgs,                       // The values for the WHERE clause
+                null,                                // don't group the rows
+                null,                                // don't filter by row groups
+                null                                 // The sort order
+        );
+
+        if(cursor.moveToNext()){
+            katalogInfo.put(COLUMN_NAME_PRODUCTID, cursor.getString(cursor.getColumnIndex(COLUMN_NAME_PRODUCTID)));
+            katalogInfo.put(COLUMN_NAME_ACCOUNTNAME, cursor.getString(cursor.getColumnIndex(COLUMN_NAME_ACCOUNTNAME)));
+            katalogInfo.put(COLUMN_NAME_PRODUCTNAME, cursor.getString(cursor.getColumnIndex(COLUMN_NAME_PRODUCTNAME)));
+            katalogInfo.put(COLUMN_NAME_BASEPRICE, cursor.getString(cursor.getColumnIndex(COLUMN_NAME_BASEPRICE)));
+            katalogInfo.put(COLUMN_NAME_SELLPRICE, cursor.getString(cursor.getColumnIndex(COLUMN_NAME_SELLPRICE)));
+        }
+        cursor.close();
+        return katalogInfo;
+    }
+
     public void updateKatalog(int productId, String accountName, String productName, int basePrice, int sellPrice) {
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues values = new ContentValues();
