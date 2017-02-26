@@ -69,8 +69,8 @@ public class TransactionActivity extends AppCompatActivity {
         recapBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(KatalogActivity.this, KatalogDetailActivity.class);
-//                startActivity(intent);
+                Intent intent = new Intent(TransactionActivity.this, RecapActivity.class);
+                startActivity(intent);
             }
         });
         katalogBtn.setOnClickListener(new View.OnClickListener() {

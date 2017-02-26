@@ -51,7 +51,6 @@ public class TransactionDetailActivity extends AppCompatActivity {
             onBackPressed();
         }
         prepareLayoutTransactionDetail();
-
     }
 
     private void prepareLayoutTransactionDetail() {
