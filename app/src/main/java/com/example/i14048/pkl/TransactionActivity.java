@@ -48,7 +48,7 @@ public class TransactionActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String idSelectedKatalog = (String) katalogList.getItemAtPosition(position);
-                SharedPreferences sharedPreferences = getSharedPreferences("SelectedKatalogSession", Context.MODE_PRIVATE);
+                SharedPreferences sharedPreferences = getSharedPreferences("SelectedTransactionSession", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("idSelectedKatalog", idSelectedKatalog);
                 editor.commit();

@@ -38,10 +38,14 @@ public class TransactionDetailActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
-        SharedPreferences selectedKatalog = getSharedPreferences("SelectedKatalogSession", Context.MODE_PRIVATE);
-        setContentView(R.layout.activity_katalog_detail);
+        SharedPreferences selectedKatalog = getSharedPreferences("SelectedTransactionSession", Context.MODE_PRIVATE);
+        setContentView(R.layout.activity_transaction_detail);
         if (selectedKatalog != null) {
-            this.idSelectedKatalog = selectedKatalog.getString(keySelectedPreference, "");
+            this.idSelectedKatalog = selectedKatalog.getString(this.keySelectedPreference, "");
+            if(idSelectedKatalog == null ){
+                Toast.makeText(getApplicationContext(), "No preference Found", Toast.LENGTH_SHORT).show();
+                onBackPressed();
+            }
         } else {
             Toast.makeText(getApplicationContext(), "No Katalog Detail Found", Toast.LENGTH_SHORT).show();
             onBackPressed();
@@ -56,11 +60,16 @@ public class TransactionDetailActivity extends AppCompatActivity {
         this.kuantitasText = (EditText) findViewById(R.id.quantityEditTextTransactionDetail);
         this.proceedBtn = (Button) findViewById(R.id.proceedButtonTransactionDetail);
         this.cancelBtn = (Button) findViewById(R.id.cancelButtonTransactionDetail);
+
         ContentValues selectedKatalog = this.dbHandler.getKatalogById(this.idSelectedKatalog);
         final ContentValues selectedKatalogTransaction = this.dbHandlerTransaction.getTransactionById(this.idSelectedKatalog);
+        if (namaProdukText == null) {
+            Toast.makeText(getApplicationContext(), "NULL", Toast.LENGTH_SHORT).show();
+        }
 
         this.namaProdukText.setText(selectedKatalog.getAsString(this.dbHandler.COLUMN_NAME_PRODUCTNAME));
         this.hargaJualText.setText(selectedKatalog.getAsString(this.dbHandler.COLUMN_NAME_SELLPRICE));
+
         if (selectedKatalogTransaction == null ) {
             this.kuantitasText.setText("0");
         }else{
@@ -73,6 +82,10 @@ public class TransactionDetailActivity extends AppCompatActivity {
                 if (selectedKatalogTransaction == null) { //Add Transaction
                     if (addTransaction()) {
                         Toast.makeText(getApplicationContext(), "Transaction added...", Toast.LENGTH_SHORT).show();
+                        clearProductPreferences();
+                        Intent intent = new Intent(TransactionDetailActivity.this, TransactionActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
                     } else {
                         Toast.makeText(getApplicationContext(), "Adding Failed, Please contact administrator.", Toast.LENGTH_SHORT).show();
                     }
@@ -102,20 +115,20 @@ public class TransactionDetailActivity extends AppCompatActivity {
 
     private int updateTransaction() {
         String quantityStr = kuantitasText.getText().toString();
-        SharedPreferences sharedPreferences = getSharedPreferences("SelectedKatalogSession", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("SelectedTransactionSession", Context.MODE_PRIVATE);
         return this.dbHandlerTransaction.updateTransactionById(sharedPreferences.getString("idSelectedKatalog", ""),
                 Integer.parseInt(quantityStr));
     }
 
     private boolean addTransaction() {
         String quantityStr = kuantitasText.getText().toString();
-        SharedPreferences sharedPreferences = getSharedPreferences("SelectedKatalogSession", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("SelectedTransactionSession", Context.MODE_PRIVATE);
         return this.dbHandlerTransaction.insertTransaction(sharedPreferences.getString("idSelectedKatalog", ""),
                 Integer.parseInt(quantityStr));
     }
 
     private void clearProductPreferences(){
-        SharedPreferences preferences = getSharedPreferences("SelectedKatalogSession", Context.MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences("SelectedTransactionSession", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.clear();
         editor.commit();
