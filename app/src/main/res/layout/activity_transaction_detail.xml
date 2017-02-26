@@ -10,4 +10,123 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.i14048.pkl.TransactionDetailActivity">
 
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:text="Detail Transaksi Penjualan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/titleTransactionDetailText"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:paddingBottom="8dp"
+            android:textSize="24sp"
+            android:textStyle="normal|bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:text="Nama Produk : "
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="16dp"
+                android:id="@+id/namaProdukText" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:hint="Nama Produk"
+                android:ems="10"
+                android:id="@+id/namaProdukEditTextKatalogDetail"
+                android:layout_weight="1" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:text="Harga Jual : "
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="16dp"
+                android:id="@+id/hargaPokokText" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:hint="Harga Jual"
+                android:ems="10"
+                android:id="@+id/hargaJualEditTextTransactionDetail"
+                android:layout_weight="1" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:text="Kuantitas : "
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="16dp"
+                android:id="@+id/hargaJualText" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:hint="Quantitas Penjualan"
+                android:ems="10"
+                android:id="@+id/quantitasEditTextTransactionDetail"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+
+        <Button
+            android:text="proceed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/button2"
+            android:layout_alignParentStart="true"
+            android:id="@+id/proceedButtonTransactionDetail"
+            android:layout_marginTop="32dp"/>
+
+        <Button
+            android:text="cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/cancelButtonTransactionDetail"
+            android:layout_alignParentStart="true" />
+
+    </LinearLayout>
+
+
+
+
 </RelativeLayout>

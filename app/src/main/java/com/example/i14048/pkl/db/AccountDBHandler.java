@@ -16,23 +16,34 @@ import java.util.List;
 public class AccountDBHandler extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "AccountPKL.db";
-    public static final String TABLE_NAME = "account";
+    public static final String TABLE_ACCOUNT = "account";
+    public static final String TABLE_TRANSACTION = "transaction";
     public static final String COLUMN_NAME_EMAIL = "email";
     public static final String COLUMN_NAME_NAME = "name";
     public static final String COLUMN_NAME_ADDRESS = "address";
     public static final String COLUMN_NAME_PHONE = "phone";
     public static final String COLUMN_NAME_BIRTHDAY = "birth";
     public static final String COLUMN_NAME_PRODUCT = "product";
-    private static final String SQL_CREATE_ENTRIES =
-            "CREATE TABLE " + TABLE_NAME + " (" +
+    public static final String COLUMN_NAME_PRODUCTID = "product_id";
+    public static final String COLUMN_NAME_QUANTITY = "kuantitas";
+
+
+    private static final String CREATE_TABLE_ACCOUNT =
+            "CREATE TABLE " + TABLE_ACCOUNT + " (" +
                     COLUMN_NAME_EMAIL + " TEXT PRIMARY KEY," +
                     COLUMN_NAME_NAME + " TEXT," +
                     COLUMN_NAME_ADDRESS + " TEXT," +
                     COLUMN_NAME_PHONE + " TEXT," +
                     COLUMN_NAME_BIRTHDAY + " TEXT," +
                     COLUMN_NAME_PRODUCT + " TEXT)";
+
+    private static final String CREATE_TABLE_TRANSACTION =
+            "CREATE TABLE " + TABLE_TRANSACTION + " (" +
+                    COLUMN_NAME_PRODUCTID + " INTEGER PRIMARY KEY," +
+                    COLUMN_NAME_QUANTITY + " INTEGER)";
+
     private static final String SQL_DELETE_ENTRIES =
-            "DROP TABLE IF EXISTS " + TABLE_NAME;
+            "DROP TABLE IF EXISTS " + TABLE_ACCOUNT;
 
     public AccountDBHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -40,14 +51,14 @@ public class AccountDBHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(SQL_CREATE_ENTRIES);
+        db.execSQL(CREATE_TABLE_ACCOUNT);
+        db.execSQL(CREATE_TABLE_TRANSACTION);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // This database is only a cache for online data, so its upgrade policy is
-        // to simply to discard the data and start over
         db.execSQL(SQL_DELETE_ENTRIES);
+        db.execSQL(CREATE_TABLE_TRANSACTION);
         onCreate(db);
     }
 
@@ -63,7 +74,7 @@ public class AccountDBHandler extends SQLiteOpenHelper {
         values.put(COLUMN_NAME_PHONE, phone);
         values.put(COLUMN_NAME_BIRTHDAY, birthday);
         values.put(COLUMN_NAME_PRODUCT, product);
-        long newRowId = db.insert(TABLE_NAME, null, values);
+        long newRowId = db.insert(TABLE_ACCOUNT, null, values);
         if(newRowId>0){
             return true;
         }else {
@@ -72,6 +83,7 @@ public class AccountDBHandler extends SQLiteOpenHelper {
     }
 
     public List<ContentValues> showAllAccount(){
+        // to do
         return null;
     }
 
@@ -93,7 +105,7 @@ public class AccountDBHandler extends SQLiteOpenHelper {
         //String sortOrder = FeedEntry.COLUMN_NAME_SUBTITLE + " DESC";
 
         Cursor cursor = db.query(
-                this.TABLE_NAME,                     // The table to query
+                this.TABLE_ACCOUNT,                     // The table to query
                 projection,                          // The columns to return
                 selection,                           // The columns for the WHERE clause
                 selectionArgs,                       // The values for the WHERE clause
@@ -127,12 +139,53 @@ public class AccountDBHandler extends SQLiteOpenHelper {
         String selection = COLUMN_NAME_EMAIL + " = ?";
         String[] selectionArgs = {email};
 
-        db.update(TABLE_NAME, values, selection, selectionArgs);
+        db.update(TABLE_ACCOUNT, values, selection, selectionArgs);
     }
 
-    private Cursor getAccountCursor(String email) {
-        SQLiteDatabase db = getReadableDatabase();
-        String[] emailConstraint = {email};
-        return db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME_EMAIL + " = ?", emailConstraint);
+    public ContentValues getTransactionById(int productId){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues TransactionInfo = new ContentValues();
+        String[] projection = {
+                COLUMN_NAME_PRODUCTID,
+                COLUMN_NAME_QUANTITY
+        };
+        String selection = this.COLUMN_NAME_PRODUCTID + " = ?";
+        String[] selectionArgs = { productId+"" };
+
+        Cursor cursor = db.query(
+                this.TABLE_TRANSACTION,                     // The table to query
+                projection,                          // The columns to return
+                selection,                           // The columns for the WHERE clause
+                selectionArgs,                       // The values for the WHERE clause
+                null,                                // don't group the rows
+                null,                                // don't filter by row groups
+                null                                 // The sort order
+        );
+
+        if(cursor.moveToNext()){
+            TransactionInfo.put(COLUMN_NAME_PRODUCTID, cursor.getString(cursor.getColumnIndex(COLUMN_NAME_PRODUCTID)));
+            TransactionInfo.put(COLUMN_NAME_QUANTITY, cursor.getString(cursor.getColumnIndex(COLUMN_NAME_QUANTITY)));
+        }
+        cursor.close();
+        return TransactionInfo;
     }
+
+    public int updateTransactionById(int productId, int quantity){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_NAME_PRODUCTID, productId);
+        values.put(COLUMN_NAME_QUANTITY, quantity);
+
+        String selection = COLUMN_NAME_PRODUCTID + " = ?";
+        String[] selectionArgs = {productId+""};
+
+        int count = db.update(TABLE_TRANSACTION, values, selection, selectionArgs);
+        return count;
+    }
+
+//    private Cursor getAccountCursor(String email) {
+//        SQLiteDatabase db = getReadableDatabase();
+//        String[] emailConstraint = {email};
+//        return db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME_EMAIL + " = ?", emailConstraint);
+//    }
 }
