@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_splash_screen"
     android:layout_width="match_parent"
@@ -10,15 +11,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.i14048.pkl.SplashScreenActivity">
 
-    <TextView
-        android:text="Aplikasi PKL Mobile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/textView3"
-        android:textAppearance="@android:style/TextAppearance.Material.Large" />
-    
     <ProgressBar
         android:id="@+id/progressBarSplash"
         android:layout_alignParentBottom="true"
@@ -26,4 +18,43 @@
         android:layout_marginBottom="100dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/logo_app"
+        android:layout_above="@+id/textView3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="120dp"
+        android:layout_marginBottom="24dp"
+        android:id="@+id/imageView" />
+
+    <TextView
+        android:text="Aplikasi PKL Mobile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView3"
+        android:textAppearance="@android:style/TextAppearance.Material.Large"
+        android:layout_above="@+id/progressBarSplash"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="42dp"
+        android:textSize="24sp" />
+
+    <TextView
+        android:text="Created By"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="59dp"
+        android:id="@+id/textView4" />
+
+    <TextView
+        android:text="Kresna Dwi Cahyo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/textView4"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
+        android:id="@+id/textView5" />
 </RelativeLayout>

@@ -89,10 +89,8 @@ public class KatalogActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(KatalogActivity.this, "Exit", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                Intent intent = new Intent(KatalogActivity.this, ExitSplashScreenActivity.class);
                 startActivity(intent);
-                finish();
-                System.exit(0);
             }
         });
 

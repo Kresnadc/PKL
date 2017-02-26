@@ -75,7 +75,7 @@
         android:layout_alignStart="@+id/phoneText"
         android:layout_marginTop="16dp"
         android:id="@+id/birthText"
-        android:hint="Tanggal Lahir (yyy/mm/dd)"
+        android:hint="Tanggal Lahir (yyyy/mm/dd)"
         android:layout_toStartOf="@+id/saveBtn" />
 
     <EditText
