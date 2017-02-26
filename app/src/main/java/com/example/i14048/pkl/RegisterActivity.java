@@ -2,13 +2,15 @@ package com.example.i14048.pkl;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.icu.util.Calendar;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -25,6 +27,19 @@ public class RegisterActivity extends AppCompatActivity {
 
     private Calendar birthCalendar;
     private DatePickerDialog birthDatePickerDialog;
+    private Button btnDate;
+
+    Calendar c = Calendar.getInstance();
+    SimpleDateFormat fmtDate = new SimpleDateFormat("yyyyMMdd");
+    DatePickerDialog.OnDateSetListener d = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+            c.set(Calendar.YEAR, year);
+            c.set(Calendar.MONTH, month);
+            c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            birthEditText.setText(fmtDate.format(c.getTime()));
+        }
+    };
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -41,6 +56,16 @@ public class RegisterActivity extends AppCompatActivity {
 
         Button btnCancel = (Button) findViewById(R.id.cancelBtn);
         Button btnSave = (Button) findViewById(R.id.saveBtn);
+        this.btnDate = (Button) findViewById(R.id.dateButtonRegister);
+        this.birthEditText.setEnabled(false);
+
+        btnDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                new DatePickerDialog(RegisterActivity.this, d, c.get(Calendar.YEAR),
+                        c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,6 +90,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
     }
+
 
     public boolean registerAccount() {
 
