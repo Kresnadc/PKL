@@ -36,11 +36,11 @@ public class KatalogActivity extends AppCompatActivity {
             ContentValues accountInfo = SessionHandler.getActiveSession(this);
         } else {
             Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
         }
         setContentView(R.layout.activity_katalog);
-
         welcomeText = (TextView) findViewById(R.id.textViewWelcome);
         katalogList = (ListView) findViewById(R.id.katalogListView);
 
