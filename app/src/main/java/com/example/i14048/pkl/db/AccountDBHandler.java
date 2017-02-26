@@ -35,15 +35,18 @@ public class AccountDBHandler extends SQLiteOpenHelper {
                     COLUMN_NAME_ADDRESS + " TEXT," +
                     COLUMN_NAME_PHONE + " TEXT," +
                     COLUMN_NAME_BIRTHDAY + " TEXT," +
-                    COLUMN_NAME_PRODUCT + " TEXT)";
+                    COLUMN_NAME_PRODUCT + " TEXT);";
 
     private static final String CREATE_TABLE_TRANSACTION =
-            "CREATE TABLE " + TABLE_TRANSACTION + " (" +
+            "CREATE TABLE " + TABLE_TRANSACTION + "(" +
                     COLUMN_NAME_PRODUCTID + " INTEGER PRIMARY KEY," +
                     COLUMN_NAME_QUANTITY + " INTEGER)";
 
-    private static final String SQL_DELETE_ENTRIES =
+    private static final String SQL_DELETE_ACCOUNT =
             "DROP TABLE IF EXISTS " + TABLE_ACCOUNT;
+
+    private static final String SQL_DELETE_TRANSACTION =
+            "DROP TABLE IF EXISTS " + TABLE_TRANSACTION;
 
     public AccountDBHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -57,8 +60,8 @@ public class AccountDBHandler extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL(SQL_DELETE_ENTRIES);
-        db.execSQL(CREATE_TABLE_TRANSACTION);
+        db.execSQL(SQL_DELETE_ACCOUNT);
+        db.execSQL(SQL_DELETE_TRANSACTION);
         onCreate(db);
     }
 
@@ -142,7 +145,23 @@ public class AccountDBHandler extends SQLiteOpenHelper {
         db.update(TABLE_ACCOUNT, values, selection, selectionArgs);
     }
 
-    public ContentValues getTransactionById(int productId){
+    public boolean insertTransaction(String idProduct, int quantity) {
+        // Gets the data repository in write mode
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // Create a new map of values, where column names are the keys
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_NAME_PRODUCTID, idProduct);
+        values.put(COLUMN_NAME_QUANTITY, quantity);
+        long newRowId = db.insert(TABLE_TRANSACTION, null, values);
+        if(newRowId>0){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    public ContentValues getTransactionById(String productId){
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues TransactionInfo = new ContentValues();
         String[] projection = {
@@ -150,7 +169,7 @@ public class AccountDBHandler extends SQLiteOpenHelper {
                 COLUMN_NAME_QUANTITY
         };
         String selection = this.COLUMN_NAME_PRODUCTID + " = ?";
-        String[] selectionArgs = { productId+"" };
+        String[] selectionArgs = { productId };
 
         Cursor cursor = db.query(
                 this.TABLE_TRANSACTION,                     // The table to query
@@ -165,12 +184,14 @@ public class AccountDBHandler extends SQLiteOpenHelper {
         if(cursor.moveToNext()){
             TransactionInfo.put(COLUMN_NAME_PRODUCTID, cursor.getString(cursor.getColumnIndex(COLUMN_NAME_PRODUCTID)));
             TransactionInfo.put(COLUMN_NAME_QUANTITY, cursor.getString(cursor.getColumnIndex(COLUMN_NAME_QUANTITY)));
+        }else{
+            TransactionInfo = null;
         }
         cursor.close();
         return TransactionInfo;
     }
 
-    public int updateTransactionById(int productId, int quantity){
+    public int updateTransactionById(String productId, int quantity){
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_NAME_PRODUCTID, productId);

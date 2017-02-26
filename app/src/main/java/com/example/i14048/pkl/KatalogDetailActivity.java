@@ -33,6 +33,7 @@ public class KatalogDetailActivity extends AppCompatActivity {
             ContentValues accountInfo = SessionHandler.getActiveSession(this);
         } else {
             Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
         }
@@ -91,6 +92,10 @@ public class KatalogDetailActivity extends AppCompatActivity {
                 } else { //Update Produk
                     if (saveActionBtn() > 0) {
                         Toast.makeText(getApplicationContext(), "Product Updated...", Toast.LENGTH_SHORT).show();
+                        SharedPreferences preferences = getSharedPreferences("SelectedKatalogSession", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.clear();
+                        editor.commit();
                         Intent intent = new Intent(KatalogDetailActivity.this, KatalogActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
@@ -105,6 +110,10 @@ public class KatalogDetailActivity extends AppCompatActivity {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedPreferences preferences = getSharedPreferences("SelectedKatalogSession", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.clear();
+                editor.commit();
                 Intent intent = new Intent(KatalogDetailActivity.this, KatalogActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
@@ -128,5 +137,11 @@ public class KatalogDetailActivity extends AppCompatActivity {
         ContentValues accountInfo = SessionHandler.getActiveSession(this);
         return this.dbHandler.insertKatalog(accountInfo.getAsString("email"), namaStr,
                 Integer.parseInt(pokokStr), Integer.parseInt(jualStr));
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        super.onBackPressed();
     }
 }

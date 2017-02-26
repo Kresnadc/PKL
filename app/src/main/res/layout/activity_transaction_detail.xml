@@ -50,7 +50,7 @@
                 android:inputType="textPersonName"
                 android:hint="Nama Produk"
                 android:ems="10"
-                android:id="@+id/namaProdukEditTextKatalogDetail"
+                android:id="@+id/namaProdukEditTextTransactionDetail"
                 android:layout_weight="1" />
 
 
@@ -102,7 +102,7 @@
                 android:inputType="textPersonName"
                 android:hint="Quantitas Penjualan"
                 android:ems="10"
-                android:id="@+id/quantitasEditTextTransactionDetail"
+                android:id="@+id/quantityEditTextTransactionDetail"
                 android:layout_weight="1" />
 
         </LinearLayout>
