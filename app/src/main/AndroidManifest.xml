@@ -22,7 +22,8 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".KatalogDetailActivity" />
         <activity android:name=".TransactionActivity" />
-        <activity android:name=".TransactionDetailActivity"></activity>
+        <activity android:name=".TransactionDetailActivity" />
+        <activity android:name=".RecapActivity"></activity>
     </application>
 
 </manifest>
