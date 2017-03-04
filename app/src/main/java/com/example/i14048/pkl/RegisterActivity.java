@@ -5,6 +5,7 @@ import android.content.Intent;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import android.os.Build;
+import android.os.StrictMode;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,7 +15,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.i14048.pkl.db.AccountDBHandler;
+import com.example.i14048.pkl.service.*;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -46,6 +47,10 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+                .permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
         this.emailEditText = (EditText) findViewById(R.id.emailText);
         this.nameEditText = (EditText) findViewById(R.id.nameText);
@@ -80,22 +85,29 @@ public class RegisterActivity extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                if(registerAccount()){
-                    Toast.makeText(getApplicationContext(), "Register Success", Toast.LENGTH_SHORT).show();
-                    Intent i = new Intent(RegisterActivity.this, LoginActivity.class);
-                    startActivity(i);
-                }else{
-                    Toast.makeText(getApplicationContext(), "Register Failed, Please Contact Administrator!", Toast.LENGTH_SHORT).show();
-                }
+                registerAccount();
             }
         });
     }
 
 
-    public boolean registerAccount() {
-
-        boolean isRegistered = new AccountDBHandler(this).insertNewAccoount(getEmailText(), getNameText(), getAddressText(), getPhoneText(), getBirthText(), getProductText());
-        return isRegistered;
+    public void registerAccount() {
+        String s = SoapHelper.registerPkl(getEmailText(), getBirthText(), getNameText(), getAddressText(), getPhoneText(), getProductText());
+        if (s.equals("SERVER_ERROR")) {
+            Toast.makeText(RegisterActivity.this, "Server is unavailable", Toast.LENGTH_SHORT).show();
+        } else if (s.equals("CONNECTION_ERROR")) {
+            Toast.makeText(RegisterActivity.this, "Cannot connect to server", Toast.LENGTH_SHORT).show();
+        } else if (s.equals("PARSE_ERROR")) {
+            // ignored since impossible
+        } else if (s.matches("^\\(\"sukses\",\"(.+)\",\"didaftarkan\"\\)$")) {
+            Toast.makeText(RegisterActivity.this, "Registered successfully", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+        } else {
+            Toast.makeText(RegisterActivity.this, "Register failed", Toast.LENGTH_SHORT).show();
+        }
     }
 
 

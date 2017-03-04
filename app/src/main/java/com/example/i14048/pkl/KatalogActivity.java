@@ -32,14 +32,15 @@ public class KatalogActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (SessionHandler.checkSession(this)) {
-            ContentValues accountInfo = SessionHandler.getActiveSession(this);
-        } else {
-            Intent intent = new Intent(this, LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            finish();
-        }
+
+//        if (SessionHandler.checkSession(this)) {
+//            ContentValues accountInfo = SessionHandler.getActiveSession(this);
+//        } else {
+//            Intent intent = new Intent(this, LoginActivity.class);
+//            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//            startActivity(intent);
+//            finish();
+//        }
         setContentView(R.layout.activity_katalog);
         welcomeText = (TextView) findViewById(R.id.textViewWelcome);
         katalogList = (ListView) findViewById(R.id.katalogListView);
@@ -47,21 +48,21 @@ public class KatalogActivity extends AppCompatActivity {
         /*
             ListView Handler
          */
-        final KatalogList katalogListAdapter = createListAdapter();
-        this.katalogList.setAdapter(katalogListAdapter);
-        katalogList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String idSelectedKatalog = (String) katalogList.getItemAtPosition(position);
-                SharedPreferences sharedPreferences = getSharedPreferences("SelectedKatalogSession", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("idSelectedKatalog", idSelectedKatalog);
-                editor.commit();
-                Intent intent = new Intent(KatalogActivity.this, KatalogDetailActivity.class);
-                Toast.makeText(getApplicationContext(), idSelectedKatalog, Toast.LENGTH_SHORT).show();
-                startActivity(intent);
-            }
-        });
+        //final KatalogList katalogListAdapter = createListAdapter();
+       // this.katalogList.setAdapter(katalogListAdapter);
+//        katalogList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                String idSelectedKatalog = (String) katalogList.getItemAtPosition(position);
+//                SharedPreferences sharedPreferences = getSharedPreferences("SelectedKatalogSession", Context.MODE_PRIVATE);
+//                SharedPreferences.Editor editor = sharedPreferences.edit();
+//                editor.putString("idSelectedKatalog", idSelectedKatalog);
+//                editor.commit();
+//                Intent intent = new Intent(KatalogActivity.this, KatalogDetailActivity.class);
+//                Toast.makeText(getApplicationContext(), idSelectedKatalog, Toast.LENGTH_SHORT).show();
+//                startActivity(intent);
+//            }
+//        });
         /*
             ListView End here!
         */
@@ -93,10 +94,8 @@ public class KatalogActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-        ContentValues accountInfo = SessionHandler.getActiveSession(this);
-        welcomeText.setText("Selamat datang: " + accountInfo.getAsString("email"));
-
+        SharedPreferences pref = this.getSharedPreferences("AccountPKL", Context.MODE_PRIVATE);
+        welcomeText.setText("Selamat datang: " + pref.getString("SID", ""));
     }
 
     @Override

@@ -35,7 +35,7 @@
         android:layout_marginEnd="16dp"
         android:hint="Masukkan email di sini!"
         android:inputType="textEmailAddress"
-        android:text="kresna"
+        android:text="kresna@yo.com"
         android:layout_above="@+id/textViewPassword"
         android:layout_alignStart="@+id/textViewPassword"
         android:layout_marginBottom="16dp">
@@ -50,7 +50,7 @@
         android:ems="10"
         android:hint="Masukkan password di sini!"
         android:inputType="textPassword"
-        android:text="password"
+        android:text="20170304"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="32dp"
